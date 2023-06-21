@@ -1,0 +1,647 @@
+---
+title: "An Examination of Innovation Practices in Different Sectors and Subcategories in Türkiye."
+author: 
+  - Sayıl, Buhara[^1]
+bibliography: ../bibliography/biblio.bib
+csl: ../csl/apa.csl
+header-includes:
+  - \usepackage{polyglossia}
+  - \setmainlanguage{english}
+  - \usepackage{booktabs}
+  - \usepackage{caption} 
+  - \captionsetup[table]{skip=10pt}
+output:
+  bookdown::pdf_document2:
+    fig_caption: yes
+    fig_height: 3
+    fig_width: 4
+    keep_tex: no
+    latex_engine: xelatex
+    number_sections: yes
+    toc: no
+geometry: margin=1in
+link-citations: yes
+urlcolor: blue
+fontsize: 12pt
+biblio-style: apalike
+dependencies:
+      - ggplot2
+abstract: |
+    This report presents an executive summary of the data analysis on innovation active enterprises for the years 2016-2018 and 2018-2020. The summary highlights the main findings and implications of the analysis, which aimed to compare the changes over time and identify any significant patterns among the variables. The analysis covered six types of innovation activities: Product Innovation, Business Process Innovation, Ongoing Innovation, Abandoned Innovation, In-house R&D Activities, and Contracted-out R&D Activities. The main focus was the activity of innovation in Türkiye in terms of sectors, and activity of innovation divided to subtitles for to pass judgement and will seek answer to question is What is the relationship between economic activity sectors and different types of innovation activities within enterprises according to compare between 2016-2018 and 2018-2020? The statistical analysis showed that the economic activity sectors had a significant effect on the mean values of the response variable, while the year did not. The findings revealed an overall increase in the number of innovation active enterprises across sectors, except for the ongoing innovation active enterprises, which decreased. The most notable increase was observed in abandoned innovation active enterprises, which had a 35.65% rise in the mean value. A comparative review of innovation active enterprises between 2016-2018 and 2018-2020 showed that most enterprises continued with their activities. Interestingly, the number of innovation active enterprises with a rate above 40% increased from 4 in 2016-2018 to 6 in 2018-2020, indicating the overall growth of innovation activity. The correlation analysis also indicated a high level of association among variables for both the years 2016-2018 and 2018-2020. However, it was noted that the correlation values for 2016-2018 were slightly stronger than those for 2018-2020.In conclusion, the analysis suggests a growth trend in innovation activities across the economic sectors, with the nature and focus of innovation varying over time. This information may be useful to policymakers and other stakeholders in developing strategies that support innovation, hence provide to promoting economic development and competitiveness
+  
+    
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache = FALSE, echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+<!-- ======================================================================= -->
+<!-- ============================== FOOTNOTES ============================== -->
+<!-- ======================================================================= -->
+[^1]: 19080415, [Github Repo](https://github.com/YOUR_USER_NAME_HERE/YOUR_REPO_NAME_HERE)
+
+
+# Introduction
+Our world is developing and change every time, arise to new technologies and, sectors day by day. Thanks to evolving technologies, made innovative perspectives more decisive. Innovation is a necessity for the modern World. Innovation has been created in new areas in the business life. The areas have pioneered to welfare and public interest with economically growth. As an example of this, we can give the innovations that took place after the discovery of the internet, the use of artificial intelligence in today's conditions after so long after the discovery of the internet is one of the indicators of how open to change innovation is in the process. Another issue that needs to be addressed is the concept of innovation is confused with the concepts of invention. Among them have similarity but, both are certainly no same concept. While invention have been existed is the creation of a product that never existed, innovation has been the development or transformation of an existing product. We can give an example of the relationship between these concepts through the sewing machine, Elias Howe invented the sewing machine but did not turn it into innovation. Isaac Singer, on the other hand, turned the sewing machine into a brand and sold his product under the Singer brand all over the world. In doing so, he used Howe "s sewing machine patent. [@tas:2017]. Research studies also have a very important place in innovation. Called R&D research and development has based on a process for innovation. Nevertheless, innovation is not an activity of R&D. [@tas:2017]. The data which using the analysis of the research paper have been found to TURKSTAT. In order to facilitate the analysis of the data, it was subjected to distinction as two sheet. Thus, The paper has been made suitable in two datasets for the comparing. 
+
+## Abbreviations
+
+The determined some abbreviations for simply that showing the graphs and tables. The abbreviations that using to summary tables (\ref{tab:summarytable16}, \ref{tab:summarytable18}, and \ref{tab:percent_diff_table}) row names are: 
+
+ - **Economic activity (NACE Rev. 2) and size group**: EconAct,
+ - **Innovation active enterprises**: InnAct,
+ - **Product innovative enterprises**: ProdInn,
+ - **Business process innovative enterprises**: BusProcInn,
+ - **Ongoing innovation active enterprises**: OngInn,
+ - **Abandoned innovation active enterprises**: AbnInn,
+ - **In-house R&D activities**: InhR&D,
+ - **Contract-out R&D to other enterprises or organisations**: ContOutR&D
+
+
+The abbreviatiyons that using to charts (\@ref(fig:plot), \@ref(fig:scatter), \@ref(fig:sca), \@ref(fig:point), \@ref(fig:eco), \@ref(fig:cor16), \@ref(fig:cor18)) are:
+
+ - **Economic activity (NACE Rev. 2) and size group**: EconAct,
+ - **Innovation active enterprises**: InnAct,
+ - **Product innovative enterprises**: ProdInn,
+ - **Business process innovative enterprises**: BusProcInn,
+ - **Ongoing innovation active enterprises**: OngInn,
+ - **Abandoned innovation active enterprises**: AbnInn,
+ - **In-house R&D activities**: InhR&D,
+ - **Contract-out R&D to other enterprises or organisations**: ContOutR&D"
+ - **General**: Gen,
+ - **Industry**: Ind,
+ - **Mining and quarrying (NACE B: 05-09)**: M&Q,
+ - **Manufacturing (NACE C: 10-33)**: Manu,
+ - **Electricity gas steam and air conditioning supply (NACE D: 35)**: Elec,
+ - **Water supply sewerage waste management and remediation activities (NACE E: 36-39)**: Water,
+ - **Service**: Serv,
+ - **Wholesale trade except of motor vehicles and motorcycles (NACE 46)**: Whol,
+ - **Transportation and storage (NACE H: 49-53)**: Trans,
+ - **Information and communication (NACE J: 58-63)**: Info,
+ - **Financial and insurance activities (NACE K: 64-66)**: Fin,
+ - **Architectural and engineering activities technical testing and analysis (NACE 71)**: Arch,
+ - **Scientific research and development (NACE 72)**: R&D,
+ - **Advertising and market research (NACE 73)**: Adv
+ - **Total (Enterprises with 10 employees or more)**: Total.
+
+## Central Question of Research 
+
+This study will examine the activity of innovation in Türkiye in terms of sectors, and activity of innovation divided to subtitles for to pass judgement and will seek answer to question is What is the relationship between economic activity sectors and different types of innovation activities within enterprises according to compare between 2016-2018 and 2018-2020?
+
+## Literature Review
+
+Innovation is a key factor for the development and progress of various sectors, especially education. The aim of this literature review is to explore how innovation has influenced the education sector and what challenges and opportunities it presents for future research. The evaluation will be focused on four primary areas: the meaning and significance of innovation, its function in education, a comparison of Turkey and South Korea's innovation records, and methodological concerns in innovation analysis.
+
+The concept of innovation has been defined in different ways by different scholars and disciplines. According to [@Murat:2021], innovation can be understood as "the implementation of a new or significantly improved product (good or service), or process, a new marketing method, or a new organizational method in business practices, workplace organization or external relations" (p. 2). Research and development (R&D), a subset of innovation activities directly related to the production of new knowledge, can also be distinguished from innovation [@Murat:2021]. Argues that innovation includes activities such as marketing, design, training and networking that are critical to successfully implementing new ideas in addition to research and development (R&D). Another view of about that is It gets evident that mostly innovative activities in each territory are not strong in ‘niche’ branches but in fields of intense economic activity, signalising the high path-dependency of innovative activities in a specific geographical environment [@Mitra2015].
+
+The importance of innovation for various sectors and domains has been widely recognized and emphasized by researchers and policymakers. [@Hamel:2006] claims that innovation is essential for creating competitive advantage, enhancing customer satisfaction, and solving social and environmental problems. He also suggests that innovation management is a crucial skill for leaders and organizations to foster a culture of creativity and experimentation. The potential for innovative educational practises to benefit students, educators, organisations, and society at large is considerable.[@tas:2017] asserts that innovation can improve the quality and efficiency of education, increase access and equity, foster lifelong learning, and contribute to the economic and social development of countries. Also, he stresses the need for advancements in pedagogy, curriculum, assessment, technology, and governance in order to realise innovation in education.
+
+A technique for assessing and contrasting innovation performance across multiple nations is the Global Innovation Index (GII), an annual ranking based on various criteria of innovation inputs and outputs. According to the GII 2020 report, South Korea ranked 10th among 131 economies, while Turkey ranked 51st. This gap reflects the different levels of investment and achievement in innovation activities between the two countries. [@arslanhan:2010] provides a historical analysis of how South Korea transformed from a low-income country with limited R&D capabilities to a high-income country with a leading position in innovation and technology. He credits his achievement to a number of things, such as unwavering government backing, strategic planning, the expansion of human resources, cooperation with international partners, and adjustment to shifting market demands.
+
+However, studying innovation in education is not without challenges and limitations. A major methodological challenge is to find and quantify innovation in education, a complex and varied phenomenon. [@Murat:2021] points out that there is no consensus on what constitutes an innovation in education, how to identify and classify different types of innovations, and how to assess their impact and effectiveness. He also warns that some innovations may have unintended or negative consequences for some stakeholders or contexts. Therefore, he calls for more rigorous and comprehensive research methods that can capture the diversity and dynamics of innovation processes and outcomes in education.
+
+International R&D is a strategic decision that can enhance firm competitiveness and innovation. However, the benefits and challenges of international R&D vary depending on the host country context and the type of R&D activity. Besides extending current literature on R&D investments, these results have useful implications for firms especially those from emerging markets with international R&D operations or those aiming to internationalize their R&D activities [@Leung:2021]. The study found that international R&D had a positive impact on firm productivity, profitability, and patenting, but also increased the risk of knowledge spillovers and imitation. The study also showed that the impact of international R&D differed across different types of R&D activities, such as basic research, applied research, and development.
+
+In conclusion, this literature review has discussed how innovation has shaped and influenced the education sector from various perspectives. It has underlined the value of innovation in addressing global opportunities and problems, as well as in boosting educational standards and results. It has also compared the innovation performance of South Korea and Turkey based on the GII ranking and explained some of the factors behind their differences. Finally, it has acknowledged some of the methodological challenges and limitations in studying innovation in education and suggested some directions for future research.
+
+# Data
+In this study, two tables have been created in order to provide information about the enterprises engaged in innovation activities and types of innovation activities in the periods 2016-2018 and 2018-2020. The tables show the percentage of enterprises engaged in innovation activities and different types of innovation activities. The following methods were followed for the creation of the tables:
+
+## Data source
+The data for the tables are taken from the results of the Turkish Statistical Institute's (TurkStat) Innovation Survey 2016-2018 and 2018-2020. The scope of the survey includes enterprises with 10 or more employees.
+
+## Data selection 
+Relevant data were selected from the results of the survey for the construction of the tables. Selected data include percentage of innovations, percentage of new products or services, percentage of new business process innovations, continuous innovation percentage, and new business abandonment percentage of new businesses . The percentage of internal R&D innovation, and the percentage of innovation. In addition, size groups are also selected according to the number of employees.
+ 
+## Data organisation
+The selected data are organised to be presented in tables. In the organisation phase, some categories were combined to improve the clarity of the data. For example, mining and quarrying, manufacturing industry, electricity, gas, steam and air conditioning production and distribution, water supply, sewerage, waste management and remediation activities are included under the industry sector. Similarly, wholesale trade, transport and storage, information and communication, finance and insurance activities, architectural and engineering activities, technical testing and analysis activities, scientific research and development activities, advertising and market research are included under the service sector. Unlike the original dataset, it was converted into two different excel files for the comparative analysis part of the research and named as RD18 and RD16. In addition, TurkStat states that "Figures in this table may not add up to totals due to the fact that an enterprise may perform more than one type of innovation activities." and for the same reason, General and Total rows in the data have not been removed from the data 
+
+```{r, echo=FALSE}
+library(tidyverse)
+library(here)
+data18 <- read_csv(here("data/RD18.csv"))
+data16 <- read_csv(here("data/RD16.csv"))
+```
+
+
+
+```{r, echo=FALSE}
+library(xtable) 
+library(summarytools)
+st_options(lang = "en")
+```
+
+## Data Summary Statistics
+
+```{r results='asis', echo=FALSE}
+library(xtable)
+library(tidyverse)
+library(summarytools)
+library(dplyr)
+st_options(lang = "en")
+
+abbreviations <- c(
+  "Economic activity (NACE Rev. 2) and size group" = "EconAct",
+  "Innovation active enterprises" = "InnAct",
+  "Product innovative enterprises" = "ProdInn",
+  "Business process innovative enterprises" = "BusProcInn",
+  "Ongoing innovation active enterprises" = "OngInn",
+  "Abandoned innovation active enterprises" = "AbnInn",
+  "In-house R&D activities" = "InhR&D",
+  "Contract-out R&D to other enterprises or organisations" = "ContOutR&D"
+)
+
+summarytable16 <- data16 %>%
+  select("Economic activity (NACE Rev. 2) and size group", "Innovation active enterprises", "Product innovative enterprises", "Business process innovative enterprises", "Ongoing innovation active enterprises", "Abandoned innovation active enterprises", "In-house R&D activities", "Contract-out R&D to other enterprises or organisations") %>% 
+  descr(stats = c("mean", "sd", "min", "med", "max", "Q1"), transpose = TRUE) 
+
+summarytable16 <- xtable(summarytable16, caption = "Summary Statistics 2016-2018", align = c("l", "c", "c", "c", "c", "c", "c"), label = "tab:summarytable16")
+rownames(summarytable16) <- abbreviations[rownames(summarytable16)]
+print(summarytable16, include.rownames = TRUE, booktabs = TRUE, comment = FALSE, caption.placement = "top", table.attr = 'style="writing-mode:vertical-lr;text-orientation:sideways;"')
+
+summarytable18 <- data18 %>%
+  select("Economic activity (NACE Rev. 2) and size group", "Innovation active enterprises", "Product innovative enterprises", "Business process innovative enterprises", "Ongoing innovation active enterprises", "Abandoned innovation active enterprises", "In-house R&D activities", "Contract-out R&D to other enterprises or organisations") %>% 
+  descr(stats = c("mean", "sd", "min", "med", "max", "Q1"), transpose = TRUE) 
+
+summarytable18 <- xtable(summarytable18, caption = "Summary Statistics 2018-2020", align = c("l", "c", "c", "c", "c", "c", "c"), label = "tab:summarytable18")
+rownames(summarytable18) <- abbreviations[rownames(summarytable18)]
+print(summarytable18, include.rownames = TRUE, booktabs = TRUE, comment = FALSE, caption.placement = "top", table.attr = 'style="writing-mode:vertical-lr;text-orientation:sideways;"')
+
+```
+
+
+
+A summary statistical table is presented to provide an overview of the main variables in the dataset. Summary statistics of changes are shown in Table \ref{tab:summarytable16} for 2016-2018 and Table \ref{tab:summarytable18} for 2018-2020.
+
+### 2016-2018 Innovation Survey (Table \ref{tab:summarytable16})
+The important variables in the dataset's statistics for the years 2016–2018 are summarised as follows:
+
+#### Abandoned innovation active enterprises: 
+The average number of active innovation ventures that are abandoned has a standard deviation of 1.78 and is 6.48. 4 is the lowest number, 6 is the medium number, and 10 is the highest number.
+
+#### Business process innovative enterprises:
+The mean number of businesses incorporating innovative practises into their operational procedures is 31.03, with a standard deviation of 12.39. The lowest, middle, and highest numbers are 17.40, 28.10, and 63.40 respectively.
+
+#### In-house R&D activities:
+Businesses in the sample conduct internal R&D projects an average of 11.78 times, with a standard deviation of 16.14. 0.80 is the lowest, 5.35 in the medium, and 64.60 is the highest value.
+
+#### Innovation active enterprises:
+With a standard deviation of 13.89 and an average of 38.28 active innovative enterprises. The lowest, middle, and highest numbers are 23.70, 34.50, and 78.00 respectively.
+
+#### Ongoing innovation active enterprises:
+Each observation had an average of 26.97 continuing innovation-active firms, with a standard deviation of 11.61. The range is from 15.70 to 59.70, with 23.65 serving as the median.
+
+#### Product innovative enterprises: 
+On average, 21.65 enterprises introduce new products, with an 11.54 standard deviation. The lowest number is 5.30, the middle is 18.65, and the highest is 46.30.
+
+### 2018-2020 Innovation Survey (Table \ref{tab:summarytable18})
+The important variables in the dataset's statistics for the years 2018 to 2020 are summarised as follows:
+
+#### Abandoned innovation active enterprises: 
+The average number of active innovative firms that are abandoned has a standard deviation of 2.71 and is 8.79. The base amount is 4.40, the median is 8.50, and the maximum is 14.90.
+
+#### Business process innovative enterprises:
+On average, there are 33.82 businesses that incorporate innovative practices into their operational procedures, with a standard deviation of 14.52. The lowest number is 16.30, the middle is 30.20, and the highest is 74.10.
+
+#### Contract-out R&D to other enterprises or organizations:
+Firms in the dataset outsource R&D activities to other organizations an average of 6.26 times, with a standard deviation of 4.05. The lowest number is 2.60, the middle is 4.60, and the highest number is 18.10.
+
+#### In-house R&D activities: 
+Enterprises in the sample conduct internal R&D projects an average of 14.12 times, with a standard deviation of 17.64. 2.40 is the lowest number, 7 is the midpoint, and 71.10 is the highest value.
+
+#### Innovation active enterprises: 
+The average number of innovation active firms is 41.68, with a standard deviation of 15.19. The lowest number is 25, the middle is 37.75, and the highest is 82.70.
+
+#### Ongoing innovation active enterprises: 
+Each observation has an average of 26.53 ongoing innovation active firms, with a standard deviation of 13.36. The minimum value is 13.50, the median is 22.35, and the maximum is 62.70.
+
+#### Product innovative enterprises: 
+On average, 22.81 businesses introduce new products, with a standard deviation of 14.16. The bottom number is 8.90, the middle is 19.50, and the top number is 64.10.
+
+These summary statistics provide valuable insights into the main variables in the dataset, highlighting the distribution and variation across different periods.
+
+# Methods and Data Analysis
+
+Innovation and R&D are of great importance for developing countries such as Turkey. It is necessary to analyse the impact of this important field in Turkey in the light of TurkStat data for the years 2016-2018 and 2018-2020. In this phase of the research, tables and graphs will be used to analyse the relevant data, information will be given about the methodology of the research and an answer will be sought to the research question.
+
+## Data Analysis 
+
+```{r plot, echo=FALSE, fig.align='center', fig.cap='Comparison of Innovation Activities', fig.width=6, fig.height=4}
+library(tidyverse)
+library(hrbrthemes)
+library(viridis)
+library(ggpubr)
+library(broom)
+library(extrafont)
+
+
+# Load the data
+summarytable16$Year <- "2016"
+summarytable18$Year <- "2018"
+
+# Combine the data and mutate the Year column to a factor
+total_df <- bind_rows(summarytable16, summarytable18, .id = "Year")
+total_df$Year <- as.factor(total_df$Year)
+
+# Pivot the data into a long format
+long_df <- total_df %>% 
+  pivot_longer(
+    cols = -Year,
+    names_to = "Statistic",
+    values_to = "Value"
+  )
+
+# Create the boxplot
+ggpubr::ggboxplot(long_df, 
+                  x = "Year", 
+                  y = "Value", 
+                  color = "Statistic",
+                  palette = "viridis") + 
+  hrbrthemes::theme_ipsum(base_family = "sans") +
+  labs(y = "Value", x = "Year", color = "Statistic",
+       title = "Comparison of summary statistics")
+
+# Perform the ANOVA
+anova_model <- aov(Value ~ Year + Statistic, data = long_df)
+
+# Print a tidy version of the anova results
+tidy(anova_model)
+
+
+```
+
+According to ANOVA test results Figure \@ref(fig:plot);
+
+Year: The Year component's p-value is 0.949, which above the 0.05 level of significance. This demonstrates that there was no statistically significant difference in the mean values of the response variable ("Innovation active enterprises") between 2016 and 2018.
+
+Statistic: The extremely low p-value (5.55e-12) associated with the Statistic factor suggests that there is a very significant difference between the various levels of this component. This suggests that the economic activity sectors have a considerable impact on the response variable's mean values.
+
+Residuals: The variation in the response variable that is not accounted for by the model's explanatory components is shown in this row.
+
+According to the findings of the ANOVA test, the year factor has less of an impact on the mean values of the "Innovation active enterprises" variable than do the economic activity sectors. Moreover, entrepreneurial activities in different sectors give different contributions on the economic growth [@Nurmalia2020].
+
+\newpage
+```{r, echo=FALSE, results='asis'}
+
+summary_data16b <- data.frame(
+  "Variables" = c("AbnInn", "BusProcInn", "InhR&D", "InnAct", "OngInn", "ProdInn"),
+  "Mean" = c(6.48, 31.03, 11.78, 38.28, 26.97, 21.65),
+  "Std.Dev" = c(1.78, 12.39, 16.14, 13.89, 11.61, 11.54),
+  "Min" = c(4.00, 17.40, 0.80, 23.70, 15.70, 5.30),
+  "Median" = c(6.25, 28.10, 5.35, 34.50, 23.65, 18.65),
+  "Max" = c(11.00, 63.40, 64.60, 78.00, 59.70, 46.30),
+  "Q1" = c(5.30, 23.00, 4.00, 30.10, 20.80, 15.90)
+)
+
+summary_data18b <- data.frame(
+  "Variables" = c("AbnInn", "BusProcInn", "ContOutR&D", "InhR&D", "InnAct", "OngInn", "ProdInn"),
+  "Mean" = c(8.79, 33.82, 6.26, 14.12, 41.68, 26.53, 22.81),
+  "Std.Dev" = c(2.71, 14.52, 4.05, 17.64, 15.19, 13.36, 14.16),
+  "Min" = c(4.40, 16.30, 2.60, 2.40, 25.30, 13.50, 8.90),
+  "Median" = c(8.50, 30.20, 4.60, 7.00, 37.75, 22.35, 19.50),
+  "Max" = c(14.90, 74.10, 18.10, 71.10, 82.70, 62.70, 64.10),
+  "Q1" = c(7.40, 25.50, 4.10, 5.20, 33.50, 18.00, 15.30)
+)
+
+
+combined_data <- merge(summary_data16b, summary_data18b, by="Variables", suffixes=c("_16", "_18"))
+
+
+percent_diff <- (combined_data[, grep("_18", names(combined_data))] - combined_data[, grep("_16", names(combined_data))]) / combined_data[, grep("_16", names(combined_data))] * 100
+
+
+final_data <- cbind(Variables = combined_data$Variables, percent_diff)
+
+
+percent_diff_table <- xtable(final_data, caption = "Percentage Differences Between 2016-2018 and 2018-2020", align = c("l", "c", "c", "c", "c", "c", "c", "c"), label = "tab:percent_diff_table")
+print(percent_diff_table, include.rownames = FALSE, booktabs = TRUE, comment = FALSE, caption.placement = "top")
+```
+In Table \ref{tab:percent_diff_table}, the percentage differences between Summary Table \ref{tab:summarytable16} for 2016-2018 data and Summary Table \ref{tab:summarytable18} for 2018-2020 data are calculated. 
+
+According to Table \ref{tab:percent_diff_table};
+
+Abandoned innovation active enterprises (AbnInn): Approximately 35.65% more was added to the mean value of this variable. Since the data have a large amount of fluctuation, the standard deviation is 52.25. The value lies between 10.00 and 35.45; median: 36.00, 35.45 being the maximum value and 39.62 being the value in the first quarter (Q1). 
+
+Business process innovative enterprises (BusProcInn): With a standard deviation of 17.19, this variable's mean rose by around 8.99%. On the other hand, the minimum value dropped by 6.32. Lowest, highest and first quarter values respectively: 7.47, 10.87 and 16.88 
+
+In-house R&D activities (InhR&D): About 19.86% more was added to the average value for InhR&D. The fact that the standard deviation is only 9.29 suggests that the data distribution is more tightly centred. The minimal amount, however, increased to 200 in a considerable way. The first quartile value is 30.00, the median is 30.84, the maximum is 10.06, and the range is between.
+
+Innovation active enterprises (InnAct): Statistics indicate that the first quarter increased by 11.30%, the smallest increase was 6.75% and the highest rate was 9.42%. The most noteworthy increase is 6.0 percent.
+
+Ongoing innovation active enterprises (OngInn): The bulk of them show generally rising variable averages, suggesting improvement or growth in these areas between 2016 and 2018 and 2018 and 2020. OngInn, which has reduced, just does not fit this description. Additionally, the noteworthy standard deviation for certain 
+
+Product innovative enterprises (ProdInn): The mean increase for ProdInn is 5.36%, with a substantial standard deviation of 22.70, indicating considerable variability in the data. The minimum value increased significantly to 67.92. The median value is 4.56, the maximum value is 38.44, and the first quartile value is -3.77, which is notably negative.
+
+Between 2016 - 2018 and 2018 - 2020, it was observed that the majority of variables increased. It was noticed that only the OngInn factor acted against this situation. In addition, high volatility in measurements or data set is recommended with significant standard deviation for various variables. Also, the considerable standard deviation for some variables suggests high volatility in the measurements or data set.
+
+
+```{r scatter, fig.align='center', fig.cap='Innovation Activities 2016-2018', echo=FALSE, fig.width=6, fig.height=4}
+library(ggplot2)
+
+data16 %>%
+  ggplot(aes(x = `Innovation active enterprises`, 
+             y = `Abandoned innovation active enterprises`, 
+             size = `Ongoing innovation active enterprises`)) +
+  geom_point(alpha = 0.7) +
+  labs(x = "Innovation active enterprises", 
+       y = "Abandoned innovation active enterprises",
+       size = "Ongoing innovation active enterprises",
+       title = "Innovation Activities 2016-2018")
+
+```
+When abandoned innovation active enterprises and Ongoing innovation active enterprises among Innovation Active Enterprises for the years 2016-2018 are compared, the majority of the enterprises have continued.
+
+
+```{r sca, fig.align='center', fig.cap='Innovation Activities 2018-2020', echo=FALSE, fig.width=6, fig.height=4}
+library(ggplot2)
+library(dplyr)
+
+data18 %>%
+  ggplot(aes(x = `Innovation active enterprises`, 
+             y = `Abandoned innovation active enterprises`, 
+             size = `Ongoing innovation active enterprises`)) +
+  geom_point(alpha = 0.7) +
+  labs(x = "Innovation active enterprises", 
+       y = "Abandoned innovation active enterprises",
+       size = "Ongoing innovation active enterprises",
+       title = "Innovation Activities 2018-2020")
+
+```
+When abandoned innovation active enterprises and Ongoing innovation active enterprises among Innovation Active Enterprises for the years 2018-2020 are compared, the majority of the enterprises have continued.
+
+
+The distributions of Abandoned innovation active enterprises and Ongoing innovation active enterprises for the rate of Innovation active enterprises in 2016-2018 and 2018-2020 were examined. As a result of the examination of the distributions, the number of innovation active enterprises with a rate below and above 40% is 6 for 2018-2020, while this number is 4 for 2016-2018 (Figure \@ref(fig:scatter)). This is an indication of the increase of innovation active enterprises between the two years (Figure \@ref(fig:scatter)). When the distribution is analysed, it is observed that for the years 2016-2018, a sector with a rate of innovation active enterprises close to 80% has a continuity of more than 50%, while this rate is 40% for enterprises close to 60%, 30% or 20% for sectors with active innovation initiatives close to 40% (Figure \@ref(fig:scatter)). Within these observations, it has been found that the majority of the initiatives continue their continuity. On the other hand, while no change is observed in the proportional findings for the years 2018-2020. There are differences in terms of the number of ratio distribution between the two years (Figure \@ref(fig:sca)).
+
+These differences are as follows, at the basic level: For the years 2016-2018 the number of Active innovation initiatives with a rate higher than 60% is only one - Scientific Research and Development - while for the years 2018-2020 this number is 3. - sectors are Information and communication, Scientific research and development, and 250+ - (Figure \@ref(fig:eco); \@ref(fig:sca); \@ref(fig:scatter); \@ref(fig:point)) .  At the same time, no sector in 2016-2018 had more than 80% initiatives, whereas for 2018-2020 there was an initiative in one sector - Scientific research and development - (Figure \@ref(fig:eco); \@ref(fig:sca); \@ref(fig:scatter)).
+
+
+\newpage
+```{r point, fig.align='center', fig.cap='Economic Activity and Innovation 2016-18', echo=FALSE}
+library(ggplot2)
+
+abbreviations <- c(
+  "General" = "Gen",
+  "Industry" = "Ind",
+  "Mining and quarrying (NACE B: 05-09)" = "M&Q",
+  "Manufacturing (NACE C: 10-33)" = "Manu",
+  "Electricity gas steam and air conditioning supply (NACE D: 35)" = "Elec",
+  "Water supply sewerage waste management and remediation activities (NACE E: 36-39)" = "Water",
+  "Service" = "Serv",
+  "Wholesale trade except of motor vehicles and motorcycles (NACE 46)" = "Whol",
+  "Transportation and storage (NACE H: 49-53)" = "Trans",
+  "Information and communication (NACE J: 58-63)" = "Info",
+  "Financial and insurance activities (NACE K: 64-66)" = "Fin",
+  "Architectural and engineering activities technical testing and analysis (NACE 71)" = "Arch",
+  "Scientific research and development (NACE 72)" = "R&D",
+  "Advertising and market research (NACE 73)" = "Adv",
+  "Total (Enterprises with 10 employees or more)" = "Total",
+  "10-49" = "10-49",
+  "50-249" = "50-249",
+  "250+" = "250+"
+)
+
+data16_modified <- data16
+data16_modified$`Economic activity (NACE Rev. 2) and size group` <- abbreviations[data16$`Economic activity (NACE Rev. 2) and size group`]
+
+ggplot(data16_modified, aes(x = `Economic activity (NACE Rev. 2) and size group`, y = `Innovation active enterprises`)) +
+  geom_point() +
+  labs(x = "Economic activity", y = "Innovation active enterprises",  title = "Economic Activity and Innovation 2016-18") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+In enterprises engaged in innovation activities and types of innovation activities, 2016-2018's summary Table \ref{tab:summarytable16} to The Innovation active enterprises mean is 38.28%.
+
+According to chart have shown  enterprises engaged in innovation activities Figure \@ref(fig:point), the sectors have could separate two as above and below the mean value 
+
+Sectors are below the mean value are 
+
+- General: 36%
+- Electricity, gas steam and air conditioning supply: 
+25.2%
+- Service: 32.4%
+- Water supply; sewerage, waste management and remediation activities: 26.4%
+- Mining and quarrying: 27.4%
+- Wholesale trade, except of motor vehicles and motorcycles): 34.7%
+- Transportation and storage: 23.7%
+- Financial and insurance activities: 34.3%
+- Architectural and engineering activities, technical testing and analysis: 30.1%
+- Advertising and market research: 31.7%
+- Enterprises with 10-49 employees: 33.9%
+- Total: 36.0%
+
+Sectors are above the mean value are 
+
+- Industry: 39.0%
+- Manufacturing: 39.7%
+- Information and communication: 59.1%
+- Scientific research and development: 78.0%
+- Enterprises with 50-250 employees: 43.3%
+- Enterprises with 500+ employees: 58.2%
+
+
+```{r eco, fig.align='center', fig.cap='Economic Activity and Innovation 2018-20', echo=FALSE}
+library(ggplot2)
+
+abbreviations <- c(
+  "General" = "Gen",
+  "Industry" = "Ind",
+  "Mining and quarrying (NACE B: 05-09)" = "M&Q",
+  "Manufacturing (NACE C: 10-33)" = "Manu",
+  "Electricity gas steam and air conditioning supply (NACE D: 35)" = "Elec",
+  "Water supply sewerage waste management and remediation activities (NACE E: 36-39)" = "Water",
+  "Service" = "Serv",
+  "Wholesale trade except of motor vehicles and motorcycles (NACE 46)" = "Whol",
+  "Transportation and storage (NACE H: 49-53)" = "Trans",
+  "Information and communication (NACE J: 58-63)" = "Info",
+  "Financial and insurance activities (NACE K: 64-66)" = "Fin",
+  "Architectural and engineering activities technical testing and analysis (NACE 71)" = "Arch",
+  "Scientific research and development (NACE 72)" = "R&D",
+  "Advertising and market research (NACE 73)" = "Adv",
+  "Total (Enterprises with 10 employees or more)" = "Total",
+  "10-49" = "10-49",
+  "50-249" = "50-249",
+  "250+" = "250+"
+)
+
+data18_modified <- data18
+data18_modified$`Economic activity (NACE Rev. 2) and size group` <- abbreviations[data18$`Economic activity (NACE Rev. 2) and size group`]
+
+ggplot(data18_modified, aes(x = `Economic activity (NACE Rev. 2) and size group`, y = `Innovation active enterprises`)) +
+  geom_point() +
+  labs(x = "Economic activity", y = "Innovation active enterprises",  title = "Economic Activity and Innovation 2018-20") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+In enterprises engaged in innovation activities and types of innovation activities, 2018-2020's summary Table \ref{tab:summarytable18} to The Innovation active enterprises mean is 41.68%.
+
+According to chart have shown  enterprises engaged in innovation activities Figure \@ref(fig:eco), the sectors have could separate two as above and below the mean value 
+
+Sectors are below the mean value are 
+
+- General 38.5
+- Electricity, gas steam and air conditioning supply: 
+27.6%
+- Water supply; sewerage, waste management and remediation activities: 33.6%
+- Service: 33.5%
+- Mining and quarrying: 29.9%
+- Wholesale trade, except of motor vehicles and motorcycles): 34.3%
+- Transportation and storage: 25.3%
+- Financial and insurance activities: 38.4%
+- Architectural and engineering activities, technical testing and analysis: 30.2%
+- Advertising and market research: 37.1%
+- Enterprises with 10-49 employees: 35.9%
+- Total: 38.5%
+
+Sectors are above the mean value are 
+
+- Industry: 42.5%
+- Manufacturing: 43.2%
+- Information and communication: 65.0%
+- Scientific research and development: 82.7%
+- Enterprises with 50-250 employees: 46.7%
+- Enterprises with 500+ employees: 67.3%
+
+
+
+\newpage
+```{r cor16, echo=FALSE, fig.width=12, fig.height=10, fig.cap='Corelation of RD16', fig.align='center'}
+library(GGally)
+
+datacor16 <- data16  
+datacor16[datacor16 == "c"] <- NA
+
+
+datacor16 <- datacor16[, -1]  
+
+colnames(datacor16)[which(names(datacor16) == 'Economic activity (NACE Rev. 2) and size group')] <- 'EconAct'
+colnames(datacor16)[which(names(datacor16) == 'Innovation active enterprises')] <- 'InnAct'
+colnames(datacor16)[which(names(datacor16) == 'Product innovative enterprises')] <- 'ProdInn'
+colnames(datacor16)[which(names(datacor16) == 'Business process innovative enterprises')] <- 'BusProcInn'
+colnames(datacor16)[which(names(datacor16) == 'Ongoing innovation active enterprises')] <- 'OngInn'
+colnames(datacor16)[which(names(datacor16) == 'Abandoned innovation active enterprises')] <- 'AbnInn'
+colnames(datacor16)[which(names(datacor16) == 'In-house R&D activities')] <- 'InhR&D'
+colnames(datacor16)[which(names(datacor16) == 'Contract-out R&D to other enterprises or organisations')] <- 'ContOutR&D'
+
+
+GGally::ggpairs(datacor16)
+```
+Correlation is one of the most important indicators showing the connection between two variables. In this context, the correlation values showing the relationship between the variables in the data of 2016-2018 years can be examined according to Figure \@ref(fig:cor16):
+
+0.963 correlation between Innovation Active Enterprises and Product innovative enterprises, 0.955 correlation between Business process innovative enterprises, 0.996 correlation between Ongoing innovation active enterprises, 0.921 correlation between Abandoned innovation active enterprises, 0.936 correlation between In-house R&D activities.  
+
+There is 0.976 correlation between Product innovative enterprises and Business process innovative enterprises, 0.996 correlation with Ongoing innovation active enterprises, 0.893 correlation with Abandoned innovation active enterprises, 0.883 correlation with In-house R&D activities.
+
+There is 0.994 correlation between business process innovative enterprises and Ongoing innovation active enterprises, 0.918 correlation between Abandoned innovation active enterprises and 0.941 correlation between In-house R&D activities.  
+
+There is a correlation of 0.913 between Ongoing innovation active enterprises and Abandoned innovation active enterprises and a correlation of 0.967 between In-house R&D activities.
+
+There is a correlation of 0.863 between Abandoned innovation active enterprises and In-house R&D activities.
+
+The relationship between contract-out R&D to other enterprises or organisations and other variables is generally positive, but weaker than the relationship between other variables.
+
+
+```{r cor18, echo=FALSE, fig.width=12, fig.height=10, fig.cap='Corelation of RD18', fig.align='center'}
+library(GGally)
+
+datacor18 <- data18  
+datacor18 <- datacor18[, c(-1, -2)]  
+
+
+colnames(datacor18)[which(names(datacor18) == 'Economic activity (NACE Rev. 2) and size group')] <- 'EconAct'
+colnames(datacor18)[which(names(datacor18) == 'Innovation active enterprises')] <- 'InnAct'
+colnames(datacor18)[which(names(datacor18) == 'Product innovative enterprises')] <- 'ProdInn'
+colnames(datacor18)[which(names(datacor18) == 'Business process innovative enterprises')] <- 'BusProcInn'
+colnames(datacor18)[which(names(datacor18) == 'Ongoing innovation active enterprises')] <- 'OngInn'
+colnames(datacor18)[which(names(datacor18) == 'Abandoned innovation active enterprises')] <- 'AbnInn'
+colnames(datacor18)[which(names(datacor18) == 'In-house R&D activities')] <- 'InhR&D'
+colnames(datacor18)[which(names(datacor18) == 'Contract-out R&D to other enterprises or organisations')] <- 'ContOutR&D'
+
+
+GGally::ggpairs(datacor18)
+```
+
+Correlation values showing the relationship between the variables in the data of 2018-2020 years, according to Figure \@ref(fig:cor18):
+
+0.994 correlation between Innovation Active Enterprises and Product innovative enterprises, 0.994 correlation between Business process innovative enterprises, 0.991 correlation between Ongoing innovation active enterprises, 0.827 correlation between Abandoned innovation active enterprises, 0.958 correlation between In-house R&D activities, 0.823 correlation between Contract-out R&D to other enterprises or organisation.
+
+```{r, echo=FALSE, results='asis'}
+if (!require(kableExtra)) {
+  install.packages("kableExtra")
+}
+library(kableExtra)
+
+if (!require(dplyr)) {
+  install.packages("dplyr")
+}
+library(dplyr)
+
+
+corr1 <- cor(data18$`Innovation active enterprises`, data18$`Product innovative enterprises`)
+corr2 <- cor(data18$`Innovation active enterprises`, data18$`Business process innovative enterprises`)
+corr3 <- cor(data18$`Innovation active enterprises`, data18$`Ongoing innovation active enterprises`)
+corr4 <- cor(data18$`Innovation active enterprises`, data18$`Abandoned innovation active enterprises`)
+corr5 <- cor(data18$`Innovation active enterprises`, data18$`In-house R&D activities`)
+corr6 <- cor(data18$`Innovation active enterprises`, data18$`Contract-out R&D to other enterprises or organisations`)
+
+
+correlation_table <- data.frame(
+  `Variables` = c('Product innovative enterprises', 
+                   'Business process innovative enterprises', 
+                   'Ongoing innovation active enterprises', 
+                   'Abandoned innovation active enterprises', 
+                   'In-house R&D activities', 
+                   'Contract-out R&D to other enterprises or organisations'),
+  `Correlation with Innovation active enterprises` = c(corr1, corr2, corr3, corr4, corr5, corr6)
+)
+
+
+correlation_table %>%
+  kable("latex", booktabs = TRUE) %>%
+  kable_styling(latex_options = "striped", full_width = F, font_size = 10)
+
+```
+
+
+  
+
+There is 0.992 correlation between Product innovative enterprises and Business process innovative enterprises, 0.985 correlation with Ongoing innovation active enterprises, 0.836 correlation with Abandoned innovation active enterprises, 0.968 correlation with In-house R&D activities and 0.839 correlation with Contract-out R&D to other enterprises or organisation. 
+
+There is 0.982 correlation between business process innovative enterprises and Ongoing innovation active enterprises, 0.832 correlation between Abandoned innovation active enterprises, 0.949 correlation between In-house R&D activities and 0.860 correlation between Contract-out R&D to other enterprises or organisation.  
+
+There is a correlation of 0.791 between Ongoing innovation active enterprises and Abandoned innovation active enterprises, 0.963 with In-house R&D activities and 0.836 with Contract-out R&D to other enterprises or organisation.
+
+There is a correlation of 0.771 between Abandoned innovation active enterprises and In-house R&D activities and a correlation of 0.666 with Contract-out R&D to other enterprises or organisation.
+
+A correlation of 0.842 was observed between In-house R&D activities and Contract-out R&D to other enterprises or organisation.
+
+
+In general, 2016-2018 and 2018-2020 data have positive correlation. Thus, the relationship of each variable with other variables is quite high and interacts with each other. The impact area of the years is not as high as the impact area between the variables. The main difference between the two years is that the 2016-2018 inter-variable correlation values are higher than the 2018-2020 inter-variable correlation values. While some variables have increased the interaction between them over the two years - such as between In-house R&D activities and Product innovative enterprises - some have maintained almost the same correlation values. The correlation between some variables, such as Innovation active enterprises and Abandoned innovation active enterprises, decreased. It can be said that the relationship between the 2018-2020 variables is slightly weaker than the relationship between the 2016-2018 variables. 
+
+
+## Methods
+The question "What is the relationship between economic activity sectors and different types of innovation activities within enterprises according to compare between 2016-2018 and 2018-2020?", which is expected to be answered in the research, is addressed. In the study conducted in this way, the data were analysed and some methods were applied during the analysis phase. RStudio program based on R program language was used in the analysis of the data. Firstly, the original data of TurkStat was separated into two different csv files as 2016-2018 and 2018-2020, and the data was read into RStudio programme with the ```read.csv``` command, and then 2 Summary Tables were created in order to have information about the data. Xtable and summarytools packages were used in the Summary Table creation phase. In the light of the comparison of Summary Tables and Summary Tables, the importance of Economic Activity sectors in terms of Innovation active prises in terms of average value was determined by ANOVA test method and visualised in Figure \@ref(fig:plot). The percentage change of the Summary Tables between the two years - 2016/2018 and 2018/2016 - is shown in another summary table. The effect and distribution of Abandoned innovation active enterprises and Ongoing innovation active enterprises among Innovation active enterprises for 2016-2018 data are shown in Figure \@ref(fig:scatter). The same application was applied in Figure \@ref(fig:sca) for the data for 2018-2020. Afterwards, the differences between the two years were analysed using these two graphs. The distribution of innovation active enterprises by sectors according to the data for the years 2016-2018 is shown as a point chart in Figure \@ref(fig:point). The same process for the data for the years 2018-2020 was applied in \@ref(fig:eco) and the findings of the two years were analysed through these two graphs. Correlation within the data group of the two years is shown in Figure \@ref(fig:cor16) and Figure \@ref(fig:cor18) tables. 
+
+
+# Conclusion
+The presented analysis of the dataset on innovation active enterprises provides a comprehensive insight into the complex interplay between different sectors of economic activity and various aspects of innovation in those sectors.
+
+From the ANOVA results, it is clear that the year component (2016 vs. 2018) did not significantly affect the mean values of the "Innovation active enterprises" variable, implying that the level of innovative activity remained generally stable during this period. Conversely, the economic activity sectors demonstrated a significant influence on the innovative enterprises, indicating that some sectors are more conducive to innovation than others.
+
+The analysis further revealed some intriguing trends in the different aspects of innovation over the years. There was an increase in the mean values for abandoned innovation activities, business process innovations, and in-house R&D activities from 2016 to 2020. However, ongoing innovative enterprises did not follow this trend, indicating potential issues that could be inhibiting continuous innovative activity. This discrepancy merits further investigation to understand the underlying causes like, It gets evident that mostly innovative activities in each territory are not strong in ‘niche’ branches but in fields of intense economic activity, signalising the high path-dependency of innovative activities in a specific geographical environment [@marlies:2017].
+
+When comparing the percentages of abandoned and ongoing innovation active enterprises in different periods, it is evident that a majority of the enterprises continued their innovation activities. Furthermore, an increase in the number of innovation active enterprises was noted in 2018-2020 compared to 2016-2018.
+
+The distribution analysis highlighted some differences in the distribution of active innovation initiatives between the two periods. Interestingly, in the 2018-2020 period, more sectors reported a rate higher than 60% of active innovation initiatives, and one sector even surpassed 80%.
+
+The correlation analysis for both periods showed strong positive correlations between most variables, implying a close association and interaction among these aspects of innovation. However, a slight decrease in correlation values of between 2016-2018 and 2018-2020 was observed, indicating that the relationship between some variables has weakened over time.
+
+As a result, the study offers a thorough knowledge of the recurring factors and connections between innovation activity across diverse economic sectors. Despite some sectors showing more significant levels of innovative activities, the overall level of innovation remained relatively stable. Although there were some discrepancies and shifts in the relationships between different aspects of innovation, the strong positive correlations highlight the interconnectedness of these aspects. This analysis underscores the importance of a multi-faceted approach to fostering innovation and the need for further research to explore the factors influencing the continuity and abandonment of innovation activities. The findings also point to potential sector-specific strategies to stimulate innovation and drive economic growth. Findings reveal that despite their low “new-to-world” innovativeness and their limited contribution to structural changes or institutional arrangements, social innovation cases in Turkey involves high levels of social inclusion and strong Actor attributes together with effective usage of technology and community support [@ASKUN2017].
+
+
+
+\newpage
+# References {#references}
+<div id="refs"></div>
+
